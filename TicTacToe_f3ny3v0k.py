@@ -89,33 +89,29 @@ def AI(board, winnerPositions, greenO, redX):
     marker = 0
     for x in winnerPositions:
         if [board[x[0]], board[x[1]], board[x[2]]].count(greenO) == 2 and any(isinstance(y, int) for y in [board[x[0]], board[x[1]], board[x[2]]]):
-            for y in [board[x[0]], board[x[1]], board[x[2]]]:
-                if isinstance(y, int):
+            for y in range(len(x)):
+                if isinstance(board[x[y]], int) and marker == 0:
                     board[x[y]] = greenO
                     marker = 1
     if marker == 0:
         for x in winnerPositions:
             if [board[x[0]], board[x[1]], board[x[2]]].count(redX) == 2 and any(isinstance(y, int) for y in [board[x[0]], board[x[1]], board[x[2]]]):
-                for y in [board[x[0]], board[x[1]], board[x[2]]]:
-                    if isinstance(y, int):
+                for y in range(len(x)):
+                    if isinstance(board[x[y]], int) and marker == 0:
                         board[x[y]] = greenO
                         marker = 1
     if marker == 0: 
         for x in winnerPositions:
-            if board[x[0]] == greenO and board[x[1]] != redX and board[x[2]] != redX:
-                board[x[1]] = greenO
-                marker = 1
-                break
-            elif board[x[1]] == greenO and board[x[0]] != redX and board[x[2]] != redX: 
-                board[x[2]] = greenO
-                marker = 1
-                break
-            elif board[x[2]] == greenO and board[x[0]] != redX and board[x[1]] != redX: 
-                board[x[0]] = greenO
-                marker = 1
-                break
+            if [board[x[0]], board[x[1]], board[x[2]]].count(greenO) == 1 and redX not in [board[x[0]], board[x[1]], board[x[2]]]:
+                for y in range(len(x)):
+                    if board[x[y]] != greenO and marker == 0:
+                        board[x[y]] = greenO
+                        marker = 1
     if marker == 0: 
         while(True):
+            if isinstance(board[4], int):
+                board[4] = greenO
+                break
             randomNum = random.randint(0, 8)
             if board[randomNum] == redX or board[randomNum] == greenO: 
                 continue
