@@ -16,12 +16,20 @@ def main():
             Print(board)
             gameOver = winnerPosition(board, winnerPositions, gameOver, greenO, redX)
             if gameOver == 1 or gameOver == 3:
+                if gameOver == 1: 
+                    print("Congratulations, you won!")
+                elif gameOver == 3:
+                    print("It\'s a tie")
                 break
             AI(board, winnerPositions, greenO, redX)
             cls()
             Print(board)
             gameOver = winnerPosition(board, winnerPositions, gameOver, greenO, redX)
             if gameOver == 2 or gameOver == 3:
+                if gameOver == 2: 
+                    print("Game Over! The computer won!")
+                if gameOver ==3:
+                    print("It\'s a tie")
                 break
         replayRequest = input("Do you want to play another round? (y/n):")
         for x in range(len(board)): 
@@ -63,7 +71,7 @@ def userInput(board, greenO, redX):
             break
 
 
-def winnerPosition(board, winnerPositions, gameOver, greenO, redX):  
+def winnerPosition(board, winnerPositions, gameOver, greenO, redX):
     for x in winnerPositions:
         if board[x[0]] == redX and board[x[1]] == redX and board[x[2]] == redX:
             gameOver = 1
@@ -71,13 +79,8 @@ def winnerPosition(board, winnerPositions, gameOver, greenO, redX):
         if board[x[0]] == greenO and board[x[1]] == greenO and board[x[2]] == greenO:
             gameOver = 2
             break
-    if gameOver == 1: 
-        print("Congratulations, you won!")       
-    elif gameOver == 2: 
-        print("Game Over! The computer won!")
-    elif board.count(redX) == 5:
-        gameOver = 3
-        print("It's a tie!")
+        if board.count(redX) == 5:
+            gameOver = 3
     return gameOver
 
 
@@ -85,36 +88,20 @@ def AI(board, winnerPositions, greenO, redX):
     time.sleep(.500)
     marker = 0
     for x in winnerPositions:
-        if board[x[0]] == board[x[1]] and board[x[0]] == greenO and board[x[2]] != redX: 
-            board[x[2]] = greenO 
-            marker = 1
-            break
-        elif board[x[0]] == board[x[2]] and board[x[0]] == greenO and board[x[1]] != redX: 
-            board[x[1]] = greenO
-            marker = 1
-            break
-        elif board[x[1]] == board[x[2]] and board[x[1]] == greenO and board[x[0]] != redX: 
-            board[x[0]] = greenO
-            marker = 1
-            break
-    if marker == 0:   
-        for x in range(len(winnerPositions)): 
-            x = winnerPositions[x]
-            if board[x[0]] == board[x[1]] and board[x[0]] == redX and board[x[2]] != greenO: 
-                board[x[2]] = greenO
-                marker = 1 
-                break
-            elif board[x[0]] == board[x[2]] and board[x[0]] == redX and board[x[1]] != greenO: 
-                board[x[1]] = greenO
-                marker = 1
-                break
-            elif board[x[1]] == board[x[2]] and board[x[1]] == redX and board[x[0]] != greenO: 
-                board[x[0]] = greenO
-                marker = 1
-                break
+        if [board[x[0]], board[x[1]], board[x[2]]].count(greenO) == 2 and any(isinstance(y, int) for y in [board[x[0]], board[x[1]], board[x[2]]]):
+            for y in [board[x[0]], board[x[1]], board[x[2]]]:
+                if isinstance(y, int):
+                    board[x[y]] = greenO
+                    marker = 1
+    if marker == 0:
+        for x in winnerPositions:
+            if [board[x[0]], board[x[1]], board[x[2]]].count(redX) == 2 and any(isinstance(y, int) for y in [board[x[0]], board[x[1]], board[x[2]]]):
+                for y in [board[x[0]], board[x[1]], board[x[2]]]:
+                    if isinstance(y, int):
+                        board[x[y]] = greenO
+                        marker = 1
     if marker == 0: 
-        for x in range(len(winnerPositions)): 
-            x = winnerPositions[x] 
+        for x in winnerPositions:
             if board[x[0]] == greenO and board[x[1]] != redX and board[x[2]] != redX:
                 board[x[1]] = greenO
                 marker = 1
