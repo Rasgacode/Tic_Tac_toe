@@ -85,6 +85,7 @@ def winner_position(board, winner_positions, game_over, green_o, red_x):
 
 
 def AI(board, winner_positions, green_o, red_x):
+    four_corner = [0, 2, 6, 8]
     time.sleep(.500)
     marker = 0
     for x in winner_positions:
@@ -112,11 +113,11 @@ def AI(board, winner_positions, green_o, red_x):
             if isinstance(board[4], int):
                 board[4] = green_o
                 break
-            random_num = random.randint(0, 8)
-            if board[random_num] == red_x or board[random_num] == green_o: 
+            random_num = random.randint(0, 3)
+            if board[four_corner[random_num]] == red_x or board[random_num] == green_o: 
                 continue
             else: 
-                board[random_num] = green_o
+                board[four_corner[random_num]] = green_o
                 break
        
 
